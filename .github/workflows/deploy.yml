@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,13 +21,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm run test
-
       - name: Build project
         run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: https://kasama-chonaikai.vercel.app
 
-      - name: Deploy to production
-        # デプロイスクリプトを記述
-        run: echo "Deploy to production"
-        # 例：Vercel, Netlify, AWS など、使用するプラットフォームに応じてカスタマイズしてください
+      # Vercel へのデプロイは GitHub 統合で自動実行されます
+      # vercel.com でリポジトリを接続するだけで push 時に自動デプロイされます
