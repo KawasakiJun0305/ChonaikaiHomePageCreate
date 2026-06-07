@@ -1,0 +1,15 @@
+# GitHub CODEOWNERS File
+# コードの責任者を指定します
+# PR で変更される際に、指定されたユーザーがレビュアーとして自動的に追加されます
+
+# デフォルトオーナー（リポジトリ全体）
+# * @owner1 @owner2
+
+# 特定ファイル/ディレクトリのオーナー
+# docs/ @doc-team
+# src/pages/api/ @backend-team
+# src/components/ @frontend-team
+# src/styles/ @design-team
+
+# GitHub Actions
+.github/workflows/ @dev-ops-team

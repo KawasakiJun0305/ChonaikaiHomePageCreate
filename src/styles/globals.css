@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Noto Sans JP', 'Yu Gothic UI', 'Meiryo', sans-serif;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-kasama-cream text-gray-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+  .section-title {
+    @apply text-xl md:text-2xl font-bold text-kasama-green border-l-4 border-kasama-green pl-3 mb-6;
+  }
+
+  .page-hero {
+    @apply bg-kasama-green text-white py-10;
+  }
+
+  .page-hero-inner {
+    @apply max-w-6xl mx-auto px-4;
+  }
+
+  .page-hero h1 {
+    @apply text-3xl font-bold;
+  }
+
+  .page-hero p {
+    @apply text-green-200 mt-2 text-sm;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-kasama-green text-white px-6 py-2.5 rounded-full font-semibold hover:bg-kasama-darkgreen transition-colors duration-200 inline-block;
+  }
+
+  .btn-outline {
+    @apply border-2 border-kasama-green text-kasama-green px-6 py-2.5 rounded-full font-semibold hover:bg-kasama-green hover:text-white transition-colors duration-200 inline-block;
+  }
+
+  .badge {
+    @apply inline-block text-xs font-semibold px-2 py-0.5 rounded-full;
+  }
+
+  .badge-event {
+    @apply badge bg-emerald-100 text-emerald-800;
+  }
+
+  .badge-news {
+    @apply badge bg-blue-100 text-blue-800;
+  }
+
+  .badge-important {
+    @apply badge bg-red-100 text-red-800;
+  }
+
+  .badge-garbage {
+    @apply badge bg-amber-100 text-amber-800;
+  }
+
+  .form-input {
+    @apply w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm
+           focus:outline-none focus:ring-2 focus:ring-kasama-green focus:border-transparent
+           transition-shadow;
+  }
+}
