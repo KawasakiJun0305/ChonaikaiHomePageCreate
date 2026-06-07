@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /login
+Disallow: /admin/
+Disallow: /api/
+Allow: /
+
+Sitemap: https://kasama-chonaikai.vercel.app/sitemap.xml

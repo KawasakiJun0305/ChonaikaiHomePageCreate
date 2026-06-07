@@ -8,6 +8,7 @@ const siteLinks = [
   { href: '/garbage',    label: 'ゴミ収集情報' },
   { href: '/disaster',   label: '防災情報' },
   { href: '/contact',    label: 'お問い合わせ' },
+  { href: '/privacy',    label: 'プライバシーポリシー' },
 ];
 
 const externalLinks = [

@@ -1,6 +1,7 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useState } from 'react';
-import { Mail, BookOpen, MessageCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, BookOpen, MessageCircle, CheckCircle2, AlertCircle } from 'lucide-react';
 import { SITE_NAME } from '../lib/constants';
 
 const contactMethods = [
@@ -45,6 +46,8 @@ export default function Contact() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -52,16 +55,28 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(
-      `【笠間町内会HP】${formData.category}：${formData.name}様より`
-    );
-    const body = encodeURIComponent(
-      `お名前：${formData.name}\nメール：${formData.email}\n種別：${formData.category}\n\n内容：\n${formData.message}`
-    );
-    window.location.href = `mailto:kasama-chonaikai@example.com?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError(false);
+
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: `【${formData.category}】${formData.name}様より`,
+        message: formData.message,
+      }),
+    });
+
+    setIsSubmitting(false);
+    if (res.ok) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(true);
+    }
   };
 
   return (
@@ -101,9 +116,9 @@ export default function Contact() {
             <div className="flex justify-center mb-4">
               <CheckCircle2 className="w-14 h-14 text-kasama-green" strokeWidth={1.5} />
             </div>
-            <h2 className="text-xl font-bold text-kasama-green mb-2">メーラーが開きました</h2>
+            <h2 className="text-xl font-bold text-kasama-green mb-2">送信が完了しました</h2>
             <p className="text-gray-500 text-sm leading-relaxed">
-              送信いただき、ありがとうございます。<br />
+              お問い合わせいただき、ありがとうございます。<br />
               担当者より順次ご返信いたします（通常2〜3営業日）。
             </p>
             <button
@@ -188,11 +203,23 @@ export default function Contact() {
               </div>
 
               <p className="text-xs text-gray-400">
-                ※ ご入力いただいた個人情報は、お問い合わせへの返信のみに使用し、第三者への提供は行いません。
+                ※ ご入力いただいた個人情報は、お問い合わせへの返信のみに使用します。
+                詳しくは<Link href="/privacy" className="underline hover:text-gray-600">プライバシーポリシー</Link>をご確認ください。
               </p>
 
-              <button type="submit" className="btn-primary w-full py-3 text-base text-center">
-                送信する
+              {submitError && (
+                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-lg text-sm text-red-600">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  送信に失敗しました。しばらく後にもう一度お試しください。
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-primary w-full py-3 text-base text-center disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? '送信中...' : '送信する'}
               </button>
             </form>
           </div>
